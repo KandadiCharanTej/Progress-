@@ -19,52 +19,56 @@ export function QuickTrackerCard() {
       title: "Streak",
       value: "14 Days",
       icon: Flame,
-      color: "text-amber-500",
+      iconBg: "bg-amber-500/10 text-amber-500 border-amber-500/20",
     },
     {
       title: "Focus",
       value: "System Architecture",
       icon: Target,
-      color: "text-[var(--accent-purple)]",
+      iconBg: "bg-purple-500/10 text-[var(--accent-purple)] border-purple-500/20",
     },
     {
       title: "Deep Work",
       value: `${(completedCount * 1.5).toFixed(1)} hrs`,
       icon: Clock,
-      color: "text-blue-500 dark:text-blue-400",
+      iconBg: "bg-blue-500/10 text-blue-500 dark:text-blue-400 border-blue-500/20",
     },
     {
       title: "Days Left",
       value: `${daysRemaining} Days`,
       icon: Calendar,
-      color: "text-emerald-500 dark:text-emerald-400",
+      iconBg: "bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 border-emerald-500/20",
     },
   ];
 
   return (
-    <div className="os-card p-3.5 flex flex-col justify-between h-full border-[var(--border-color)]">
-      <div className="flex items-center justify-between pb-2 border-b border-[var(--border-color)]">
-        <span className="text-micro font-extrabold text-[var(--accent-purple)] tracking-wider">
+    <div className="os-card p-4 flex flex-col justify-between h-full border-[var(--border-color)]">
+      <div className="flex items-center justify-between pb-2.5 border-b border-[var(--border-color)]">
+        <span className="text-micro font-extrabold text-[var(--accent-purple)] tracking-wider uppercase">
           LIVE TRACKERS
         </span>
-        <span className="text-[10px] font-extrabold text-[var(--text-muted)]">4 Metrics</span>
+        <span className="text-[10px] font-extrabold text-[var(--text-muted)] bg-[var(--bg-secondary)] px-2 py-0.5 rounded-full border border-[var(--border-color)]">
+          4 Metrics
+        </span>
       </div>
 
-      <div className="flex flex-col gap-2 flex-1 justify-around my-1">
+      <div className="flex flex-col gap-2.5 flex-1 justify-around my-1.5">
         {trackers.map((t, idx) => {
           const Icon = t.icon;
           return (
             <div
               key={idx}
-              className="flex items-center justify-between rounded-[10px] bg-[var(--bg-secondary)] px-3 py-2 border border-[var(--border-color)] transition-colors hover:border-[var(--accent-purple)]"
+              className="flex items-center justify-between rounded-[10px] bg-[var(--bg-secondary)] px-3 py-2.5 border border-[var(--border-color)] transition-all hover:border-[var(--accent-purple)]"
             >
-              <div className="flex items-center gap-2.5">
-                <Icon className={`h-4 w-4 ${t.color}`} />
+              <div className="flex items-center gap-3">
+                <div className={`flex h-8 w-8 items-center justify-center rounded-[8px] border ${t.iconBg}`}>
+                  <Icon className="h-4 w-4" />
+                </div>
                 <div>
                   <span className="block text-[9px] font-extrabold text-[var(--text-muted)] uppercase tracking-wider">
                     {t.title}
                   </span>
-                  <span className="text-xs font-bold text-[var(--text-primary)] leading-tight">
+                  <span className="text-xs font-extrabold text-[var(--text-primary)] leading-tight">
                     {t.value}
                   </span>
                 </div>

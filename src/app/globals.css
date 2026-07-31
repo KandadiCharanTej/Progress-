@@ -6,10 +6,10 @@
   .dark {
     --bg-main: #09090b;
     --bg-sidebar: #111113;
-    --bg-card: #18181b;
-    --bg-secondary: #202024;
-    --border-color: #2a2a30;
-    --border-subtle: #222226;
+    --bg-card: #141416;
+    --bg-secondary: #1d1d21;
+    --border-color: #27272a;
+    --border-subtle: #1e1e22;
 
     --text-primary: #fafafa;
     --text-secondary: #a1a1aa;
@@ -17,7 +17,7 @@
 
     --accent-purple: #8b5cf6;
     --accent-purple-hover: #7c3aed;
-    --accent-purple-glow: rgba(139, 92, 246, 0.25);
+    --accent-purple-glow: rgba(139, 92, 246, 0.2);
   }
 
   /* Light Theme */
@@ -39,12 +39,12 @@
   }
 }
 
-/* Card Component with Smooth Glow Border on Hover (No Transform Scale to Prevent Hover Clipping) */
+/* Premium Card Component with Micro Border & Shadow */
 .os-card {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 16px;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
@@ -60,32 +60,33 @@
 /* Button Utilities */
 .os-btn {
   border-radius: 10px;
-  transition: all 0.15s ease-in-out;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   user-select: none;
 }
 
 .os-btn:active {
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 
-/* Input Fields - Sharp Contrast in Both Light & Dark Themes */
+/* Input Fields - Linear Command Input Styling */
 .os-input {
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: 10px;
   color: var(--text-primary);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
 }
 
 .os-input::placeholder {
   color: var(--text-muted);
-  opacity: 0.8;
+  opacity: 0.75;
 }
 
 .os-input:focus {
   border-color: var(--accent-purple);
-  box-shadow: 0 0 0 2px var(--accent-purple-glow);
+  box-shadow: 0 0 0 3px var(--accent-purple-glow);
+  background-color: var(--bg-card);
 }
 
 /* Thin Custom Scrollbar */

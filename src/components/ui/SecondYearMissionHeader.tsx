@@ -26,41 +26,44 @@ export function SecondYearMissionHeader() {
   });
 
   return (
-    <div className="os-card p-3.5 md:p-4 bg-gradient-to-br from-[var(--bg-card)] via-[var(--bg-card)] to-[var(--bg-secondary)] border-[var(--border-color)]">
+    <div className="os-card relative overflow-hidden p-4 bg-gradient-to-br from-[var(--bg-card)] via-[var(--bg-card)] to-[var(--bg-secondary)] border-[var(--border-color)]">
+      {/* Top Purple Accent Glow Strip */}
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-purple-500 via-[var(--accent-purple)] to-indigo-500" />
+
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           <span className="h-2 w-2 rounded-full bg-[var(--accent-purple)] animate-pulse" />
           <span className="text-micro font-extrabold text-[var(--accent-purple)] tracking-wider uppercase">
             Second Year Execution
           </span>
-          <span className="hidden sm:inline-block text-[11px] text-[var(--text-muted)] font-semibold">
+          <span className="hidden sm:inline-block text-[11px] text-[var(--text-muted)] font-bold">
             (August 2026 → June 2027)
           </span>
         </div>
 
         {/* Live Indicators */}
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1.5 rounded-full bg-[var(--bg-secondary)] px-2.5 py-0.5 border border-[var(--border-color)] text-[11px]">
+          <div className="flex items-center gap-1.5 rounded-full bg-[var(--bg-secondary)] px-3 py-1 border border-[var(--border-color)] text-[11px]">
             <Clock className="h-3.5 w-3.5 text-amber-500" />
-            <span className="text-[var(--text-muted)]">Days Left:</span>
-            <strong className="text-[var(--text-primary)]">{daysRemaining}d</strong>
+            <span className="text-[var(--text-muted)] font-medium">Days Left:</span>
+            <strong className="text-[var(--text-primary)] font-extrabold">{daysRemaining}d</strong>
           </div>
 
-          <div className="flex items-center gap-1.5 rounded-full bg-[var(--bg-secondary)] px-2.5 py-0.5 border border-[var(--border-color)] text-[11px]">
+          <div className="flex items-center gap-1.5 rounded-full bg-[var(--bg-secondary)] px-3 py-1 border border-[var(--border-color)] text-[11px]">
             <Target className="h-3.5 w-3.5 text-[var(--accent-purple)]" />
-            <span className="text-[var(--text-muted)]">Progress:</span>
-            <strong className="text-[var(--accent-purple)]">{overallProgress}%</strong>
+            <span className="text-[var(--text-muted)] font-medium">Progress:</span>
+            <strong className="text-[var(--accent-purple)] font-extrabold">{overallProgress}%</strong>
           </div>
 
-          <div className="hidden lg:flex items-center gap-1.5 text-[11px] text-[var(--text-secondary)] font-bold bg-[var(--bg-secondary)] px-2.5 py-0.5 rounded-full border border-[var(--border-color)]">
+          <div className="hidden lg:flex items-center gap-1.5 text-[11px] text-[var(--text-secondary)] font-extrabold bg-[var(--bg-secondary)] px-3 py-1 rounded-full border border-[var(--border-color)]">
             <Calendar className="h-3.5 w-3.5 text-[var(--accent-purple)]" />
             <span>{todayFormatted}</span>
           </div>
         </div>
       </div>
 
-      {/* Large Prominent Mission Statement */}
-      <div className="mt-2">
+      {/* Large Hero Mission Quote */}
+      <div className="mt-2.5">
         <h1 className="text-base sm:text-lg md:text-xl font-extrabold text-[var(--text-primary)] tracking-tight leading-snug">
           “Become an exceptional engineer, build meaningful products, achieve financial independence, and become the best version of myself.”
         </h1>
