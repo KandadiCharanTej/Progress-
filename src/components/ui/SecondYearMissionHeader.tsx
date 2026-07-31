@@ -1,8 +1,11 @@
 "use client";
 
+import { useTasks } from "@/context/TaskContext";
 import { Calendar, Clock, Target } from "lucide-react";
 
 export function SecondYearMissionHeader() {
+  const { tasks } = useTasks();
+
   // Dynamic Date Calculation
   const now = new Date();
   const endDate = new Date(2027, 5, 30); // June 30, 2027
@@ -23,16 +26,15 @@ export function SecondYearMissionHeader() {
   });
 
   return (
-    <div className="rounded-[16px] p-3.5 md:p-4 bg-[var(--bg-card)] border border-[var(--border-color)] shadow-xs">
-      {/* Top Header Badge & Live Status Indicators */}
-      <div className="flex items-center justify-between pb-1.5">
+    <div className="os-card p-3 md:p-3.5 bg-gradient-to-br from-[var(--bg-card)] via-[var(--bg-card)] to-[var(--bg-secondary)] border-[var(--border-color)]">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="h-2 w-2 rounded-full bg-[var(--accent-purple)] animate-pulse" />
-          <span className="text-micro font-extrabold text-[var(--accent-purple)] tracking-wider uppercase">
+          <span className="text-micro font-extrabold text-[var(--accent-purple)] tracking-wider">
             Second Year
           </span>
-          <span className="text-[11px] font-medium text-[var(--text-muted)]">
-            • August 2026 → June 2027
+          <span className="hidden sm:inline-block text-[11px] text-[var(--text-muted)] font-medium">
+            (August 2026 → June 2027)
           </span>
         </div>
 
@@ -57,9 +59,9 @@ export function SecondYearMissionHeader() {
         </div>
       </div>
 
-      {/* Hero Mission Statement */}
-      <div className="mt-1">
-        <h1 className="text-base md:text-lg lg:text-xl font-bold text-[var(--text-primary)] tracking-tight leading-snug">
+      {/* Mission Statement Header */}
+      <div className="mt-1.5">
+        <h1 className="text-sm md:text-base font-bold text-[var(--text-primary)] tracking-tight leading-snug">
           “Become an exceptional engineer, build meaningful products, achieve financial independence, and become the best version of myself.”
         </h1>
       </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Flame, BookOpen } from "lucide-react";
+import { Flame, Info, BookOpen } from "lucide-react";
 
 interface ContributionDay {
   date: string;
@@ -43,7 +43,7 @@ export function ContributionGraph() {
         count,
         deepWorkHours,
         studyHours,
-        journal: isPast ? `Executed ${count} tasks with ${deepWorkHours}h deep work.` : undefined,
+        journal: isPast ? `Completed ${count} core tasks with ${deepWorkHours}h deep work.` : undefined,
         intensity: isPast ? intensity : 0,
       });
     }
@@ -62,20 +62,20 @@ export function ContributionGraph() {
       case 3:
         return "bg-purple-500 border-purple-400";
       case 4:
-        return "bg-purple-400 border-purple-300 shadow-[0_0_10px_#a855f7]";
+        return "bg-purple-400 border-purple-300 shadow-[0_0_8px_#a855f7]";
       default:
         return "bg-[var(--bg-secondary)] border-[var(--border-color)] opacity-60";
     }
   };
 
   return (
-    <div className="rounded-[16px] p-3.5 bg-[var(--bg-card)] border border-[var(--border-color)] shadow-xs flex flex-col justify-between h-full">
+    <div className="os-card p-3 border-[var(--border-color)] flex flex-col justify-between">
       {/* Header */}
-      <div className="flex items-center justify-between pb-2 border-b border-[var(--border-color)] mb-1">
+      <div className="flex items-center justify-between mb-1.5">
         <div className="flex items-center gap-2">
           <Flame className="h-4 w-4 text-[var(--accent-purple)]" />
-          <span className="text-xs font-extrabold text-[var(--text-primary)]">
-            Consistency Engine
+          <span className="text-xs font-bold text-[var(--text-primary)]">
+            Consistency Graph (Second Year)
           </span>
         </div>
 
@@ -93,19 +93,19 @@ export function ContributionGraph() {
       </div>
 
       {/* Month Headers */}
-      <div className="flex items-center justify-between text-[10px] font-bold text-[var(--text-muted)] px-5 mb-1">
+      <div className="flex items-center justify-between text-[10px] font-semibold text-[var(--text-muted)] px-6 mb-1">
         {months.map((m) => (
           <span key={m}>{m}</span>
         ))}
       </div>
 
       {/* Contribution Grid */}
-      <div className="relative flex items-center gap-2 flex-1 my-1">
+      <div className="relative flex items-center gap-2">
         {/* Weekday Labels */}
         <div className="flex flex-col justify-between text-[9px] font-bold text-[var(--text-muted)] h-16 py-0.5">
-          <span>M</span>
-          <span>W</span>
-          <span>F</span>
+          <span>Mon</span>
+          <span>Wed</span>
+          <span>Fri</span>
         </div>
 
         {/* 52 Columns x 7 Rows Grid */}
@@ -123,7 +123,7 @@ export function ContributionGraph() {
       </div>
 
       {/* Hover / Active Day Details Bar */}
-      <div className="mt-1 pt-1.5 border-t border-[var(--border-color)]">
+      <div className="mt-1.5">
         {hoveredDay || selectedDay ? (
           <div className="flex items-center justify-between text-[11px] font-semibold text-[var(--text-primary)] bg-[var(--bg-secondary)] px-2.5 py-1 rounded-[8px] border border-[var(--border-color)]">
             <span>📅 {(hoveredDay || selectedDay)?.date}</span>

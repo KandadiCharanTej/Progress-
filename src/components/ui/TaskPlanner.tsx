@@ -116,8 +116,8 @@ export function TaskPlanner() {
   };
 
   return (
-    <div className="rounded-[16px] p-3.5 md:p-4 bg-[var(--bg-card)] border border-[var(--border-color)] shadow-xs flex flex-col justify-between h-full">
-      {/* Sticky Header & Top Controls */}
+    <div className="os-card p-3.5 md:p-4 flex flex-col justify-between h-full border-[var(--border-color)]">
+      {/* Sticky Header & Controls */}
       <div className="shrink-0 bg-[var(--bg-card)]">
         <div className="flex items-center justify-between pb-2.5 border-b border-[var(--border-color)]">
           <div className="flex items-center gap-2">
@@ -140,7 +140,7 @@ export function TaskPlanner() {
               <Search className="absolute left-2.5 h-3 w-3 text-[var(--text-muted)]" />
               <input
                 type="text"
-                placeholder="Search tasks..."
+                placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="os-input pl-7 pr-2 py-1 text-xs w-28 sm:w-36 focus:outline-none"
@@ -226,13 +226,12 @@ export function TaskPlanner() {
         </form>
       </div>
 
-      {/* Scrollable Task Viewport (Supports 10-15 visible tasks internally - max 360px) */}
-      <div className="mt-2.5 flex-1 overflow-y-auto max-h-[350px] pr-1 flex flex-col gap-1.5">
+      {/* Scrollable Task List Viewport (Full height for left column) */}
+      <div className="mt-2.5 flex-1 overflow-y-auto max-h-[320px] pr-1 flex flex-col gap-1.5">
         <AnimatePresence initial={false}>
           {filtered.length === 0 ? (
-            <div className="flex h-32 flex-col items-center justify-center rounded-[12px] border border-dashed border-[var(--border-color)] text-xs text-[var(--text-muted)] font-medium p-4 text-center">
-              <Zap className="h-5 w-5 text-[var(--accent-purple)] mb-1 opacity-50" />
-              <span>No tasks found for this view. Type above to create a task!</span>
+            <div className="flex h-28 items-center justify-center rounded-[10px] border border-dashed border-[var(--border-color)] text-xs text-[var(--text-muted)] font-medium">
+              No tasks found. Type above to add your first task!
             </div>
           ) : (
             <>
@@ -244,7 +243,7 @@ export function TaskPlanner() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, x: -8 }}
                   transition={{ duration: 0.15 }}
-                  className="group flex items-center justify-between rounded-[10px] p-2.5 bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:border-[var(--accent-purple)] transition-all"
+                  className="group flex items-center justify-between rounded-[8px] p-2.5 bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:border-[var(--accent-purple)] transition-all"
                 >
                   <div className="flex items-center gap-2.5 min-w-0 flex-1">
                     <button
@@ -276,7 +275,7 @@ export function TaskPlanner() {
                     ) : (
                       <span
                         onClick={() => startEdit(task)}
-                        className="text-xs md:text-sm font-semibold text-[var(--text-primary)] truncate cursor-pointer hover:text-[var(--accent-purple)] transition-colors"
+                        className="text-xs font-semibold text-[var(--text-primary)] truncate cursor-pointer hover:text-[var(--accent-purple)] transition-colors"
                         title="Click to edit"
                       >
                         {task.title}
@@ -325,7 +324,7 @@ export function TaskPlanner() {
 
               {/* Completed Tasks (Collapsible) */}
               {showCompleted && completedTasks.length > 0 && (
-                <div className="mt-1.5 pt-1.5 border-t border-[var(--border-color)]">
+                <div className="mt-1 pt-1 border-t border-[var(--border-color)]">
                   <span className="text-[9px] font-bold text-[var(--text-muted)] uppercase mb-1 block">
                     Completed ({completedTasks.length})
                   </span>
