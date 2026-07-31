@@ -1,51 +1,52 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 type Theme = "dark" | "light";
 
 interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
-  setTheme: (theme: Theme) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("dark");
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setTheme] = useState<Theme>("dark");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem("mission-control-theme") as Theme | null;
-    if (stored === "light" || stored === "dark") {
-      setThemeState(stored);
-      document.documentElement.classList.toggle("dark", stored === "dark");
-    } else {
-      document.documentElement.classList.add("dark");
-    }
     setMounted(true);
+    const savedTheme = localStorage.getItem("mission_control_theme") as Theme;
+    if (savedTheme === "light" || savedTheme === "dark") {
+      setTheme(savedTheme);
+    } else {
+      setTheme("dark");
+    }
   }, []);
 
-  const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
-    localStorage.setItem("mission-control-theme", newTheme);
-    if (newTheme === "dark") {
-      document.documentElement.classList.add("dark");
+  useEffect(() => {
+    if (!mounted) return;
+
+    const root = document.documentElement;
+    if (theme === "dark") {
+      root.classList.add("dark");
+      root.classList.remove("light");
     } else {
-      document.documentElement.classList.remove("dark");
+      root.classList.add("light");
+      root.classList.remove("dark");
     }
-  };
+
+    localStorage.setItem("mission_control_theme", theme);
+  }, [theme, mounted]);
 
   const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
-      <div className={mounted ? "" : "opacity-0 transition-opacity duration-150"}>
-        {children}
-      </div>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
     </ThemeContext.Provider>
   );
 }

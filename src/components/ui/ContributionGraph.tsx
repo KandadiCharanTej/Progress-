@@ -13,8 +13,7 @@ interface ContributionDay {
 }
 
 export function ContributionGraph() {
-  const [hoveredDay, setHoveredDay] = useState<ContributionDay | null>(null);
-  const [selectedDay, setSelectedDay] = useState<ContributionDay | null>(null);
+  const [hoveredDay, setHoveredDay] = useState<{ day: ContributionDay; rect?: DOMRect } | null>(null);
 
   const months = ["Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
@@ -69,7 +68,7 @@ export function ContributionGraph() {
   };
 
   return (
-    <div className="os-card p-3 md:p-3.5 border-[var(--border-color)] flex flex-col justify-between">
+    <div className="os-card p-3 md:p-3.5 border-[var(--border-color)] flex flex-col justify-between relative">
       {/* Header */}
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
@@ -109,36 +108,37 @@ export function ContributionGraph() {
         </div>
 
         {/* 52 Columns x 7 Rows Grid */}
-        <div className="grid grid-flow-col grid-rows-7 gap-1 overflow-x-auto no-scrollbar py-0.5 flex-1">
+        <div className="grid grid-flow-col grid-rows-7 gap-1 overflow-x-auto no-scrollbar py-0.5 flex-1 relative">
           {days.map((day, idx) => (
             <div
               key={idx}
-              onMouseEnter={() => setHoveredDay(day)}
+              onMouseEnter={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                setHoveredDay({ day, rect });
+              }}
               onMouseLeave={() => setHoveredDay(null)}
-              onClick={() => setSelectedDay(day)}
-              className={`h-2.5 w-2.5 rounded-[2px] border transition-all cursor-pointer hover:scale-125 ${getIntensityColor(day.intensity)}`}
-            />
+              className={`group relative h-2.5 w-2.5 rounded-[2px] border transition-all cursor-pointer hover:scale-125 ${getIntensityColor(day.intensity)}`}
+            >
+              {/* GitHub-Style Direct Floating Popover (Floats DIRECTLY above the square!) */}
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:flex flex-col items-center pointer-events-none z-50 whitespace-nowrap">
+                <div className="bg-zinc-900 dark:bg-zinc-100 text-zinc-100 dark:text-zinc-900 text-[10px] font-bold px-2.5 py-1 rounded-[6px] shadow-lg border border-zinc-700 dark:border-zinc-300">
+                  <div>📅 {day.date}</div>
+                  <div className="text-[9px] font-medium opacity-90">
+                    {day.count > 0 ? `${day.count} tasks completed • ${day.deepWorkHours}h deep work` : "No activity"}
+                  </div>
+                </div>
+                {/* Arrow */}
+                <div className="w-0 h-0 border-x-4 border-x-transparent border-t-4 border-t-zinc-900 dark:border-t-zinc-100" />
+              </div>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Hover / Active Day Details Bar */}
-      <div className="mt-2">
-        {hoveredDay || selectedDay ? (
-          <div className="flex items-center justify-between text-[11px] font-bold text-[var(--text-primary)] bg-[var(--bg-secondary)] px-3 py-1.5 rounded-[8px] border border-[var(--border-color)]">
-            <span>📅 {(hoveredDay || selectedDay)?.date}</span>
-            <div className="flex items-center gap-3 text-[var(--text-secondary)]">
-              <span>Tasks: <strong className="text-[var(--accent-purple)]">{(hoveredDay || selectedDay)?.count}</strong></span>
-              <span>Deep Work: <strong className="text-[var(--text-primary)]">{(hoveredDay || selectedDay)?.deepWorkHours}h</strong></span>
-              <span>Study: <strong className="text-[var(--text-primary)]">{(hoveredDay || selectedDay)?.studyHours}h</strong></span>
-            </div>
-          </div>
-        ) : (
-          <div className="flex items-center gap-1.5 text-[10px] text-[var(--text-muted)] font-semibold">
-            <BookOpen className="h-3 w-3 text-[var(--accent-purple)]" />
-            <span>Hover over any day square for stats or click to view day journal.</span>
-          </div>
-        )}
+      {/* Footer Info */}
+      <div className="mt-2 flex items-center gap-1.5 text-[10px] text-[var(--text-muted)] font-semibold">
+        <BookOpen className="h-3 w-3 text-[var(--accent-purple)]" />
+        <span>Hover over any day square for real-time GitHub-style details popup.</span>
       </div>
     </div>
   );
