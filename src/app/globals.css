@@ -1,130 +1,96 @@
 @import "tailwindcss";
 
-:root {
-  /* Light Mode Palette */
-  --bg-main: #FAFAFB;
-  --bg-sidebar: #FFFFFF;
-  --bg-card: #FFFFFF;
-  --bg-secondary: #F4F4F5;
-  --border-color: #E4E4E7;
-  --text-primary: #18181B;
-  --text-secondary: #52525B;
-  --text-muted: #71717A;
-  --accent-purple: #7C3AED;
-  --accent-purple-hover: #6D28D9;
-  --card-shadow: 0 2px 12px -2px rgba(0, 0, 0, 0.04), 0 1px 4px -1px rgba(0, 0, 0, 0.02);
-  --sidebar-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.04);
+@layer base {
+  /* Dark Theme (Default) */
+  :root {
+    --bg-main: #09090b;
+    --bg-sidebar: #111113;
+    --bg-card: #18181b;
+    --bg-secondary: #202024;
+    --border-color: #2a2a30;
+    --border-subtle: #222226;
+
+    --text-primary: #fafafa;
+    --text-secondary: #a1a1aa;
+    --text-muted: #71717a;
+
+    --accent-purple: #8b5cf6;
+    --accent-purple-hover: #7c3aed;
+    --accent-purple-glow: rgba(139, 92, 246, 0.25);
+  }
+
+  /* Light Theme */
+  .light {
+    --bg-main: #fafafb;
+    --bg-sidebar: #ffffff;
+    --bg-card: #ffffff;
+    --bg-secondary: #f4f4f5;
+    --border-color: #e4e4e7;
+    --border-subtle: #f0f0f3;
+
+    --text-primary: #09090b;
+    --text-secondary: #52525b;
+    --text-muted: #71717a;
+
+    --accent-purple: #7c3aed;
+    --accent-purple-hover: #6d28d9;
+    --accent-purple-glow: rgba(124, 58, 237, 0.15);
+  }
 }
 
-html.dark {
-  /* Dark Mode Palette (Default - Luxurious Midnight) */
-  --bg-main: #09090B;
-  --bg-sidebar: #111113;
-  --bg-card: #18181B;
-  --bg-secondary: #202024;
-  --border-color: #2A2A30;
-  --text-primary: #FAFAFA;
-  --text-secondary: #A1A1AA;
-  --text-muted: #71717A;
-  --accent-purple: #8B5CF6;
-  --accent-purple-hover: #7C3AED;
-  --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3), 0 2px 6px -1px rgba(0, 0, 0, 0.15);
-  --sidebar-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html, body {
-  background-color: var(--bg-main);
-  color: var(--text-primary);
-  font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, 'Inter', Roboto, sans-serif;
-  overflow: hidden;
-  height: 100vh;
-  width: 100vw;
-  transition: background-color 0.25s ease, color 0.25s ease;
-}
-
-/* Inter Typography Scale Classes */
-.text-display {
-  font-size: 36px;
-  line-height: 1.15;
-  font-weight: 800;
-  letter-spacing: -0.025em;
-}
-
-.text-page-title {
-  font-size: 24px;
-  line-height: 1.2;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.text-section-title {
-  font-size: 16px;
-  line-height: 1.3;
-  font-weight: 600;
-  letter-spacing: -0.015em;
-}
-
-.text-card-title {
-  font-size: 15px;
-  line-height: 1.35;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
-
-.text-body {
-  font-size: 13px;
-  line-height: 1.45;
-}
-
-.text-small {
-  font-size: 12px;
-  line-height: 1.4;
-}
-
-.text-micro {
-  font-size: 10px;
-  line-height: 1.3;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-/* Soft Floating Card Utility (Fix: No transform scale to prevent clipping) */
+/* Card Component with Smooth Glow Border on Hover (No Transform Scale to Prevent Hover Clipping) */
 .os-card {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: 18px;
-  box-shadow: var(--card-shadow);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .os-card:hover {
+  border-color: var(--border-color);
+}
+
+.os-card-hover:hover {
   border-color: var(--accent-purple);
-  box-shadow: 0 0 18px -2px rgba(139, 92, 246, 0.25), var(--card-shadow);
+  box-shadow: 0 0 16px -2px var(--accent-purple-glow);
 }
 
-/* Floating Sidebar Utility */
-.os-sidebar {
-  background-color: var(--bg-sidebar);
-  border: 1px solid var(--border-color);
-  border-radius: 20px;
-  box-shadow: var(--sidebar-shadow);
-}
-
-/* Buttons and Inputs */
+/* Button Utilities */
 .os-btn {
-  border-radius: 12px;
-  transition: background-color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+  border-radius: 10px;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+  user-select: none;
 }
 
-/* Premium Thin Scrollbar - Hidden until hover */
+.os-btn:active {
+  transform: scale(0.98);
+}
+
+/* Input Fields - Sharp Contrast in Both Light & Dark Themes */
+.os-input {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.os-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.8;
+}
+
+.os-input:focus {
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 0 2px var(--accent-purple-glow);
+}
+
+/* Thin Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -132,10 +98,19 @@ html, body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: transparent;
+  background: var(--border-color);
   border-radius: 9999px;
 }
 
-*:hover::-webkit-scrollbar-thumb {
-  background: var(--border-color);
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-purple);
+}
+
+/* Hide Scrollbar Utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

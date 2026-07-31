@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Flame, Info, BookOpen } from "lucide-react";
+import { Flame, BookOpen } from "lucide-react";
 
 interface ContributionDay {
   date: string;
@@ -35,7 +35,7 @@ export function ContributionGraph() {
       let intensity: 0 | 1 | 2 | 3 | 4 = 0;
       if (count === 1 || count === 2) intensity = 1;
       else if (count === 3) intensity = 2;
-      else if (count === 4) intensity = 3;
+      else if (count >= 4) intensity = 3;
       else if (count >= 5) intensity = 4;
 
       days.push({
@@ -56,44 +56,44 @@ export function ContributionGraph() {
   const getIntensityColor = (intensity: number) => {
     switch (intensity) {
       case 1:
-        return "bg-purple-900/40 border-purple-800/40";
+        return "bg-purple-300 dark:bg-purple-900/50 border-purple-400 dark:border-purple-800/40";
       case 2:
-        return "bg-purple-700/60 border-purple-600/50";
+        return "bg-purple-400 dark:bg-purple-700/70 border-purple-500 dark:border-purple-600/50";
       case 3:
-        return "bg-purple-500 border-purple-400";
+        return "bg-purple-600 dark:bg-purple-500 border-purple-700 dark:border-purple-400";
       case 4:
-        return "bg-purple-400 border-purple-300 shadow-[0_0_8px_#a855f7]";
+        return "bg-purple-700 dark:bg-purple-400 border-purple-800 dark:border-purple-300 shadow-xs";
       default:
-        return "bg-[var(--bg-secondary)] border-[var(--border-color)] opacity-60";
+        return "bg-[var(--bg-secondary)] border-[var(--border-color)] opacity-70";
     }
   };
 
   return (
-    <div className="os-card p-3 border-[var(--border-color)] flex flex-col justify-between">
+    <div className="os-card p-3 md:p-3.5 border-[var(--border-color)] flex flex-col justify-between">
       {/* Header */}
-      <div className="flex items-center justify-between mb-1.5">
+      <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <Flame className="h-4 w-4 text-[var(--accent-purple)]" />
-          <span className="text-xs font-bold text-[var(--text-primary)]">
+          <span className="text-xs font-extrabold text-[var(--text-primary)]">
             Consistency Graph (Second Year)
           </span>
         </div>
 
-        <div className="flex items-center gap-1.5 text-[10px] text-[var(--text-muted)] font-medium">
+        <div className="flex items-center gap-1.5 text-[10px] text-[var(--text-muted)] font-bold">
           <span>Less</span>
           <div className="flex items-center gap-1">
             <span className="h-2.5 w-2.5 rounded-[2px] bg-[var(--bg-secondary)] border border-[var(--border-color)]" />
-            <span className="h-2.5 w-2.5 rounded-[2px] bg-purple-900/50 border border-purple-800/40" />
-            <span className="h-2.5 w-2.5 rounded-[2px] bg-purple-700/60 border border-purple-600/50" />
-            <span className="h-2.5 w-2.5 rounded-[2px] bg-purple-500 border border-purple-400" />
-            <span className="h-2.5 w-2.5 rounded-[2px] bg-purple-400 border border-purple-300" />
+            <span className="h-2.5 w-2.5 rounded-[2px] bg-purple-300 dark:bg-purple-900/50 border border-purple-400" />
+            <span className="h-2.5 w-2.5 rounded-[2px] bg-purple-400 dark:bg-purple-700/70 border border-purple-500" />
+            <span className="h-2.5 w-2.5 rounded-[2px] bg-purple-600 dark:bg-purple-500 border border-purple-700" />
+            <span className="h-2.5 w-2.5 rounded-[2px] bg-purple-700 dark:bg-purple-400 border border-purple-800" />
           </div>
           <span>More</span>
         </div>
       </div>
 
       {/* Month Headers */}
-      <div className="flex items-center justify-between text-[10px] font-semibold text-[var(--text-muted)] px-6 mb-1">
+      <div className="flex items-center justify-between text-[10px] font-bold text-[var(--text-secondary)] pl-7 pr-2 mb-1">
         {months.map((m) => (
           <span key={m}>{m}</span>
         ))}
@@ -102,7 +102,7 @@ export function ContributionGraph() {
       {/* Contribution Grid */}
       <div className="relative flex items-center gap-2">
         {/* Weekday Labels */}
-        <div className="flex flex-col justify-between text-[9px] font-bold text-[var(--text-muted)] h-16 py-0.5">
+        <div className="flex flex-col justify-between text-[9px] font-extrabold text-[var(--text-muted)] h-16 py-0.5 shrink-0">
           <span>Mon</span>
           <span>Wed</span>
           <span>Fri</span>
@@ -123,9 +123,9 @@ export function ContributionGraph() {
       </div>
 
       {/* Hover / Active Day Details Bar */}
-      <div className="mt-1.5">
+      <div className="mt-2">
         {hoveredDay || selectedDay ? (
-          <div className="flex items-center justify-between text-[11px] font-semibold text-[var(--text-primary)] bg-[var(--bg-secondary)] px-2.5 py-1 rounded-[8px] border border-[var(--border-color)]">
+          <div className="flex items-center justify-between text-[11px] font-bold text-[var(--text-primary)] bg-[var(--bg-secondary)] px-3 py-1.5 rounded-[8px] border border-[var(--border-color)]">
             <span>📅 {(hoveredDay || selectedDay)?.date}</span>
             <div className="flex items-center gap-3 text-[var(--text-secondary)]">
               <span>Tasks: <strong className="text-[var(--accent-purple)]">{(hoveredDay || selectedDay)?.count}</strong></span>
@@ -134,7 +134,7 @@ export function ContributionGraph() {
             </div>
           </div>
         ) : (
-          <div className="flex items-center gap-1.5 text-[10px] text-[var(--text-muted)] font-medium">
+          <div className="flex items-center gap-1.5 text-[10px] text-[var(--text-muted)] font-semibold">
             <BookOpen className="h-3 w-3 text-[var(--accent-purple)]" />
             <span>Hover over any day square for stats or click to view day journal.</span>
           </div>

@@ -31,37 +31,37 @@ export function QuickTrackerCard() {
       title: "Deep Work",
       value: `${(completedCount * 1.5).toFixed(1)} hrs`,
       icon: Clock,
-      color: "text-blue-400",
+      color: "text-blue-500 dark:text-blue-400",
     },
     {
       title: "Days Left",
       value: `${daysRemaining} Days`,
       icon: Calendar,
-      color: "text-emerald-400",
+      color: "text-emerald-500 dark:text-emerald-400",
     },
   ];
 
   return (
-    <div className="os-card p-3 flex flex-col justify-between h-full border-[var(--border-color)]">
-      <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-color)]">
-        <span className="text-micro font-extrabold text-[var(--accent-purple)]">
-          Live Trackers
+    <div className="os-card p-3.5 flex flex-col justify-between h-full border-[var(--border-color)]">
+      <div className="flex items-center justify-between pb-2 border-b border-[var(--border-color)]">
+        <span className="text-micro font-extrabold text-[var(--accent-purple)] tracking-wider">
+          LIVE TRACKERS
         </span>
-        <span className="text-[10px] font-bold text-[var(--text-muted)]">4 Metrics</span>
+        <span className="text-[10px] font-extrabold text-[var(--text-muted)]">4 Metrics</span>
       </div>
 
-      <div className="flex flex-col gap-2 flex-1 justify-around my-0.5">
+      <div className="flex flex-col gap-2 flex-1 justify-around my-1">
         {trackers.map((t, idx) => {
           const Icon = t.icon;
           return (
             <div
               key={idx}
-              className="flex items-center justify-between rounded-[8px] bg-[var(--bg-secondary)] px-2.5 py-1.5 border border-[var(--border-color)]"
+              className="flex items-center justify-between rounded-[10px] bg-[var(--bg-secondary)] px-3 py-2 border border-[var(--border-color)] transition-colors hover:border-[var(--accent-purple)]"
             >
-              <div className="flex items-center gap-2">
-                <Icon className={`h-3.5 w-3.5 ${t.color}`} />
+              <div className="flex items-center gap-2.5">
+                <Icon className={`h-4 w-4 ${t.color}`} />
                 <div>
-                  <span className="block text-[9px] font-extrabold text-[var(--text-muted)] uppercase">
+                  <span className="block text-[9px] font-extrabold text-[var(--text-muted)] uppercase tracking-wider">
                     {t.title}
                   </span>
                   <span className="text-xs font-bold text-[var(--text-primary)] leading-tight">

@@ -92,24 +92,24 @@ export function TaskPlanner() {
   const getCategoryBadge = (category: string) => {
     switch (category) {
       case "Study":
-        return "bg-blue-500/10 text-blue-400 border-blue-500/20";
+        return "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20";
       case "Startup":
-        return "bg-purple-500/10 text-purple-400 border-purple-500/20";
+        return "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20";
       case "Money":
-        return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+        return "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20";
       default:
-        return "bg-zinc-500/10 text-zinc-400 border-zinc-500/20";
+        return "bg-zinc-500/10 text-zinc-600 dark:text-zinc-400 border-zinc-500/20";
     }
   };
 
   const getPriorityBadge = (priority: string) => {
     switch (priority) {
       case "High":
-        return "text-red-400 bg-red-500/10 border-red-500/20";
+        return "text-red-600 dark:text-red-400 bg-red-500/10 border-red-500/20";
       case "Medium":
-        return "text-amber-400 bg-amber-500/10 border-amber-500/20";
+        return "text-amber-600 dark:text-amber-400 bg-amber-500/10 border-amber-500/20";
       case "Low":
-        return "text-zinc-400 bg-zinc-500/10 border-zinc-500/20";
+        return "text-zinc-600 dark:text-zinc-400 bg-zinc-500/10 border-zinc-500/20";
       default:
         return "";
     }
@@ -117,11 +117,11 @@ export function TaskPlanner() {
 
   return (
     <div className="os-card p-3.5 md:p-4 flex flex-col justify-between h-full border-[var(--border-color)]">
-      {/* Sticky Header & Controls */}
+      {/* Header & Controls */}
       <div className="shrink-0 bg-[var(--bg-card)]">
         <div className="flex items-center justify-between pb-2.5 border-b border-[var(--border-color)]">
-          <div className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-[8px] bg-[var(--accent-purple)] text-white shadow-xs">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-7.5 w-7.5 items-center justify-center rounded-[8px] bg-[var(--accent-purple)] text-white shadow-xs">
               <Zap className="h-4 w-4" />
             </div>
             <div>
@@ -137,20 +137,20 @@ export function TaskPlanner() {
           {/* Search Input & Sort Dropdown */}
           <div className="flex items-center gap-2">
             <div className="relative flex items-center">
-              <Search className="absolute left-2.5 h-3 w-3 text-[var(--text-muted)]" />
+              <Search className="absolute left-2.5 h-3.5 w-3.5 text-[var(--text-muted)]" />
               <input
                 type="text"
-                placeholder="Search..."
+                placeholder="Search tasks..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="os-input pl-7 pr-2 py-1 text-xs w-28 sm:w-36 focus:outline-none"
+                className="os-input pl-8 pr-2.5 py-1 text-xs w-28 sm:w-36 focus:outline-none"
               />
             </div>
 
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="os-input px-2 py-1 text-xs focus:outline-none"
+              className="os-input px-2 py-1 text-xs focus:outline-none font-medium"
             >
               <option value="date">Sort: Date</option>
               <option value="priority">Sort: Priority</option>
@@ -161,12 +161,12 @@ export function TaskPlanner() {
 
         {/* Filter Category Pills & Completed Toggle */}
         <div className="mt-2.5 flex items-center justify-between">
-          <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
             {["All", "Study", "Startup", "Money"].map((cat) => (
               <button
                 key={cat}
                 onClick={() => setFilterCategory(cat)}
-                className={`px-2.5 py-0.5 text-[11px] font-bold rounded-[6px] border transition-colors ${
+                className={`px-3 py-1 text-[11px] font-bold rounded-[6px] border transition-colors ${
                   filterCategory === cat
                     ? "bg-[var(--accent-purple)] text-white border-[var(--accent-purple)]"
                     : "bg-[var(--bg-secondary)] text-[var(--text-secondary)] border-[var(--border-color)] hover:border-[var(--accent-purple)]"
@@ -179,27 +179,27 @@ export function TaskPlanner() {
 
           <button
             onClick={() => setShowCompleted(!showCompleted)}
-            className="flex items-center gap-1 text-[11px] font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+            className="flex items-center gap-1 text-[11px] font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
           >
             <span>{showCompleted ? "Hide Done" : "Show Done"}</span>
-            {showCompleted ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
+            {showCompleted ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
           </button>
         </div>
 
-        {/* Sticky Add New Task Form */}
+        {/* Add New Task Form (Crisp contrast and aligned flex input) */}
         <form onSubmit={handleAddTask} className="mt-2.5 flex items-center gap-2">
           <input
             type="text"
             placeholder="Add task for today and press Enter..."
             value={newTaskTitle}
             onChange={(e) => setNewTaskTitle(e.target.value)}
-            className="flex-1 os-input px-3 py-1.5 text-xs focus:outline-none focus:border-[var(--accent-purple)]"
+            className="flex-1 os-input px-3 py-1.5 text-xs font-medium focus:outline-none focus:border-[var(--accent-purple)] placeholder-[var(--text-muted)]"
           />
 
           <select
             value={newTaskCategory}
             onChange={(e) => setNewTaskCategory(e.target.value as any)}
-            className="os-input px-2 py-1.5 text-xs focus:outline-none"
+            className="os-input px-2.5 py-1.5 text-xs font-medium focus:outline-none"
           >
             <option value="Study">Study</option>
             <option value="Startup">Startup</option>
@@ -209,7 +209,7 @@ export function TaskPlanner() {
           <select
             value={newTaskPriority}
             onChange={(e) => setNewTaskPriority(e.target.value as any)}
-            className="os-input px-2 py-1.5 text-xs focus:outline-none"
+            className="os-input px-2.5 py-1.5 text-xs font-medium focus:outline-none"
           >
             <option value="High">High</option>
             <option value="Medium">Med</option>
@@ -218,16 +218,16 @@ export function TaskPlanner() {
 
           <button
             type="submit"
-            className="os-btn h-8 px-3.5 bg-[var(--accent-purple)] text-white text-xs font-bold flex items-center gap-1 hover:bg-[var(--accent-purple-hover)] shrink-0"
+            className="os-btn h-8 px-3.5 bg-[var(--accent-purple)] text-white text-xs font-bold flex items-center gap-1.5 hover:bg-[var(--accent-purple-hover)] shrink-0 shadow-xs"
           >
-            <Plus className="h-3.5 w-3.5" />
+            <Plus className="h-4 w-4" />
             <span>Add Task</span>
           </button>
         </form>
       </div>
 
-      {/* Scrollable Task List Viewport (Full height for left column) */}
-      <div className="mt-2.5 flex-1 overflow-y-auto max-h-[320px] pr-1 flex flex-col gap-1.5">
+      {/* Task List Viewport (Linear-style row spacing) */}
+      <div className="mt-3 flex-1 overflow-y-auto max-h-[300px] pr-1 flex flex-col gap-1.5">
         <AnimatePresence initial={false}>
           {filtered.length === 0 ? (
             <div className="flex h-28 items-center justify-center rounded-[10px] border border-dashed border-[var(--border-color)] text-xs text-[var(--text-muted)] font-medium">
@@ -243,18 +243,18 @@ export function TaskPlanner() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, x: -8 }}
                   transition={{ duration: 0.15 }}
-                  className="group flex items-center justify-between rounded-[8px] p-2.5 bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:border-[var(--accent-purple)] transition-all"
+                  className="group flex items-center justify-between rounded-[10px] px-3 py-2 bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:border-[var(--accent-purple)] transition-all"
                 >
                   <div className="flex items-center gap-2.5 min-w-0 flex-1">
                     <button
                       onClick={() => toggleTask(task.id)}
-                      className="flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full border border-[var(--border-color)] hover:border-[var(--accent-purple)] transition-colors text-transparent"
+                      className="flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full border border-[var(--border-color)] hover:border-[var(--accent-purple)] transition-colors text-transparent cursor-pointer"
                     >
                       <Check className="h-3 w-3 stroke-[3]" />
                     </button>
 
                     {editingTaskId === task.id ? (
-                      <div className="flex items-center gap-1 flex-1">
+                      <div className="flex items-center gap-1.5 flex-1">
                         <input
                           type="text"
                           value={editTitle}
@@ -283,40 +283,40 @@ export function TaskPlanner() {
                     )}
                   </div>
 
-                  <div className="flex items-center gap-1.5 shrink-0 ml-2">
-                    <span className={`px-2 py-0.2 text-[9px] font-bold rounded border ${getCategoryBadge(task.category)}`}>
+                  <div className="flex items-center gap-2 shrink-0 ml-2">
+                    <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full border ${getCategoryBadge(task.category)}`}>
                       {task.category}
                     </span>
-                    <span className={`px-2 py-0.2 text-[9px] font-bold rounded border ${getPriorityBadge(task.priority)}`}>
+                    <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full border ${getPriorityBadge(task.priority)}`}>
                       {task.priority}
                     </span>
-                    <div className="flex items-center gap-1 text-[10px] text-[var(--text-muted)] font-medium">
+                    <div className="flex items-center gap-1 text-[11px] text-[var(--text-muted)] font-medium">
                       <Clock className="h-3 w-3" />
                       <span>{task.time}</span>
                     </div>
 
                     <button
                       onClick={() => duplicateTask(task)}
-                      className="h-5 w-5 flex items-center justify-center rounded text-[var(--text-muted)] hover:text-[var(--text-primary)] opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="h-6 w-6 flex items-center justify-center rounded text-[var(--text-muted)] hover:text-[var(--text-primary)] opacity-0 group-hover:opacity-100 transition-opacity"
                       title="Duplicate task"
                     >
-                      <Copy className="h-3 w-3" />
+                      <Copy className="h-3.5 w-3.5" />
                     </button>
 
                     <button
                       onClick={() => startEdit(task)}
-                      className="h-5 w-5 flex items-center justify-center rounded text-[var(--text-muted)] hover:text-[var(--text-primary)] opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="h-6 w-6 flex items-center justify-center rounded text-[var(--text-muted)] hover:text-[var(--text-primary)] opacity-0 group-hover:opacity-100 transition-opacity"
                       title="Edit task"
                     >
-                      <Edit2 className="h-3 w-3" />
+                      <Edit2 className="h-3.5 w-3.5" />
                     </button>
 
                     <button
                       onClick={() => deleteTask(task.id)}
-                      className="h-5 w-5 flex items-center justify-center rounded text-[var(--text-muted)] hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="h-6 w-6 flex items-center justify-center rounded text-[var(--text-muted)] hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
                       title="Delete task"
                     >
-                      <Trash2 className="h-3 w-3" />
+                      <Trash2 className="h-3.5 w-3.5" />
                     </button>
                   </div>
                 </motion.div>
@@ -324,8 +324,8 @@ export function TaskPlanner() {
 
               {/* Completed Tasks (Collapsible) */}
               {showCompleted && completedTasks.length > 0 && (
-                <div className="mt-1 pt-1 border-t border-[var(--border-color)]">
-                  <span className="text-[9px] font-bold text-[var(--text-muted)] uppercase mb-1 block">
+                <div className="mt-1 pt-2 border-t border-[var(--border-color)]">
+                  <span className="text-[10px] font-bold text-[var(--text-muted)] uppercase mb-1.5 block tracking-wider">
                     Completed ({completedTasks.length})
                   </span>
                   {completedTasks.map((task) => (
@@ -334,12 +334,12 @@ export function TaskPlanner() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 0.6 }}
                       exit={{ opacity: 0 }}
-                      className="group flex items-center justify-between rounded-[8px] p-2 mb-1 bg-[var(--bg-secondary)]/40 border border-[var(--border-color)] opacity-60"
+                      className="group flex items-center justify-between rounded-[8px] px-3 py-1.5 mb-1 bg-[var(--bg-secondary)]/50 border border-[var(--border-color)] opacity-60"
                     >
-                      <div className="flex items-center gap-2 min-w-0 flex-1">
+                      <div className="flex items-center gap-2.5 min-w-0 flex-1">
                         <button
                           onClick={() => toggleTask(task.id)}
-                          className="flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full border border-emerald-500 bg-emerald-500 text-white"
+                          className="flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full border border-emerald-500 bg-emerald-500 text-white cursor-pointer"
                         >
                           <Check className="h-3 w-3 stroke-[3]" />
                         </button>
@@ -352,7 +352,7 @@ export function TaskPlanner() {
                         onClick={() => deleteTask(task.id)}
                         className="h-5 w-5 flex items-center justify-center rounded text-[var(--text-muted)] hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
                       >
-                        <Trash2 className="h-3 w-3" />
+                        <Trash2 className="h-3.5 w-3.5" />
                       </button>
                     </motion.div>
                   ))}

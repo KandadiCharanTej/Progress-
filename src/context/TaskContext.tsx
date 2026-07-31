@@ -27,9 +27,7 @@ interface TaskContextType {
   setSortBy: (sort: "date" | "priority" | "category") => void;
 }
 
-const STORAGE_KEY = "mission-control-tasks-v1";
-
-const TaskContext = createContext<TaskContextType | undefined>(undefined);
+const STORAGE_KEY = "mission-control-tasks-v2";
 
 const initialTasks: TaskItem[] = [
   {
@@ -39,7 +37,7 @@ const initialTasks: TaskItem[] = [
     priority: "High",
     time: "2.0 hrs",
     completed: true,
-    createdAt: Date.now() - 3600000 * 4,
+    createdAt: Date.now() - 3600000 * 8,
   },
   {
     id: "2",
@@ -48,7 +46,7 @@ const initialTasks: TaskItem[] = [
     priority: "High",
     time: "2.5 hrs",
     completed: false,
-    createdAt: Date.now() - 3600000 * 2,
+    createdAt: Date.now() - 3600000 * 7,
   },
   {
     id: "3",
@@ -57,9 +55,56 @@ const initialTasks: TaskItem[] = [
     priority: "Medium",
     time: "1.0 hr",
     completed: false,
+    createdAt: Date.now() - 3600000 * 6,
+  },
+  {
+    id: "4",
+    title: "Solve 3 LeetCode Hard System Design Problems",
+    category: "Study",
+    priority: "High",
+    time: "1.5 hrs",
+    completed: false,
+    createdAt: Date.now() - 3600000 * 5,
+  },
+  {
+    id: "5",
+    title: "Implement Production Auth & JWT Validation Pipeline",
+    category: "Startup",
+    priority: "High",
+    time: "2.0 hrs",
+    completed: false,
+    createdAt: Date.now() - 3600000 * 4,
+  },
+  {
+    id: "6",
+    title: "Audit Monthly Fixed Expenses & Savings Rate Targets",
+    category: "Money",
+    priority: "Low",
+    time: "0.5 hr",
+    completed: false,
+    createdAt: Date.now() - 3600000 * 3,
+  },
+  {
+    id: "7",
+    title: "Deep Dive into Distributed Consensus Protocols (Raft & Paxos)",
+    category: "Study",
+    priority: "Medium",
+    time: "1.5 hrs",
+    completed: false,
+    createdAt: Date.now() - 3600000 * 2,
+  },
+  {
+    id: "8",
+    title: "Refactor Database Indexing & Query Latency Metrics",
+    category: "Startup",
+    priority: "Medium",
+    time: "1.0 hr",
+    completed: false,
     createdAt: Date.now() - 3600000,
   },
 ];
+
+const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
 export function TaskProvider({ children }: { children: ReactNode }) {
   const [tasks, setTasks] = useState<TaskItem[]>(initialTasks);
