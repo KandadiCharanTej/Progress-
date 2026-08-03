@@ -1,119 +1,129 @@
 "use client";
 
-import {
-  MessageSquare,
-  Users,
-  Share2,
-  Sparkles,
-  PenTool,
-  BookOpenCheck,
-  Zap,
-  ShieldAlert
-} from "lucide-react";
-import { PageHeader } from "@/components/ui/PageHeader";
-import { SectionCard } from "@/components/ui/SectionCard";
-import { AnimatedContainer, StaggerGrid, StaggerItem } from "@/components/ui/AnimatedContainer";
+import { useState } from "react";
+import { Check, Play } from "lucide-react";
 
-export default function GrowthPage() {
+export default function GrowthPillarPage() {
+  const [goal, setGoal] = useState("Read 2 Books per Month & Build Mental Models Library");
+  const [progress, setProgress] = useState(60);
+  const [sessionActive, setSessionActive] = useState(false);
+  const [notes, setNotes] = useState(
+    "Focus on clear technical writing, high-level articulation, and deep reading habits."
+  );
+
+  const [topics, setTopics] = useState([
+    { id: 1, text: "Read 'Atomic Habits' & Implement Habit Loop System", done: true },
+    { id: 2, text: "Write 1 Technical Blog Post on Systems Architecture", done: false },
+    { id: 3, text: "Practice Public Speaking & Technical Presentation", done: false },
+  ]);
+
+  const [resources] = useState([
+    { title: "Atomic Habits — James Clear", type: "Book", link: "#" },
+    { title: "Feynman Technique for Deep Learning", type: "Article", link: "#" },
+  ]);
+
+  const toggleTopic = (id: number) => {
+    setTopics(topics.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
+  };
+
   return (
-    <AnimatedContainer>
-      <PageHeader
-        category="Study / Growth"
-        title="Growth"
-        subtitle="Personal development, soft skills, branding, & mindset elevation"
-        icon={Sparkles}
-        badge="8 Growth Pillars"
-      />
+    <div className="max-w-4xl mx-auto py-8 px-6 space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-[var(--text-primary)] tracking-tight">
+          Growth & Mindset
+        </h1>
+        <p className="text-xs text-[var(--text-secondary)] mt-1">
+          Personal development, mental models, reading, and continuous skill acquisition.
+        </p>
+      </div>
 
-      <StaggerGrid className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {/* Communication */}
-        <StaggerItem>
-          <SectionCard
-            title="Communication"
-            subtitle="Public speaking, technical writing, & concise articulation"
-            icon={MessageSquare}
-            isClickable
-            minHeight="min-h-[200px]"
-          />
-        </StaggerItem>
+      <div className="os-card p-4 flex items-center justify-between">
+        <div className="flex-1 mr-6">
+          <div className="flex items-center justify-between mb-1 text-xs">
+            <span className="font-semibold text-[var(--text-muted)] uppercase">Progress</span>
+            <span className="font-bold text-[var(--accent-purple)]">{progress}%</span>
+          </div>
+          <div className="h-2 w-full rounded-full bg-[var(--bg-secondary)] overflow-hidden">
+            <div className="h-full bg-[var(--accent-purple)]" style={{ width: `${progress}%` }} />
+          </div>
+        </div>
 
-        {/* Leadership */}
-        <StaggerItem>
-          <SectionCard
-            title="Leadership"
-            subtitle="Team guidance, strategic vision, & execution ownership"
-            icon={Users}
-            isClickable
-            minHeight="min-h-[200px]"
-          />
-        </StaggerItem>
+        <button
+          onClick={() => setSessionActive(!sessionActive)}
+          className={`os-btn px-4 py-2 text-xs font-semibold flex items-center gap-1.5 ${
+            sessionActive
+              ? "bg-emerald-600 text-white"
+              : "bg-[var(--accent-purple)] text-white hover:bg-[var(--accent-purple-hover)]"
+          }`}
+        >
+          <Play className="h-3.5 w-3.5" />
+          <span>{sessionActive ? "Session Active" : "Start Session"}</span>
+        </button>
+      </div>
 
-        {/* Networking */}
-        <StaggerItem>
-          <SectionCard
-            title="Networking"
-            subtitle="Professional connections, mentorship, & community"
-            icon={Share2}
-            isClickable
-            minHeight="min-h-[200px]"
-          />
-        </StaggerItem>
+      <div className="os-card p-5 space-y-2">
+        <span className="text-xs font-semibold text-[var(--text-muted)] uppercase block">
+          Current Goal
+        </span>
+        <p className="text-sm font-semibold text-[var(--text-primary)]">{goal}</p>
+      </div>
 
-        {/* Personal Branding */}
-        <StaggerItem>
-          <SectionCard
-            title="Personal Branding"
-            subtitle="Online presence, industry reputation, & domain authority"
-            icon={Sparkles}
-            isClickable
-            minHeight="min-h-[200px]"
-          />
-        </StaggerItem>
+      <div className="os-card p-5 space-y-3">
+        <span className="text-xs font-semibold text-[var(--text-muted)] uppercase block">
+          Topics Checklist
+        </span>
+        <div className="space-y-2">
+          {topics.map((t) => (
+            <div
+              key={t.id}
+              onClick={() => toggleTopic(t.id)}
+              className="flex items-center gap-3 p-2.5 rounded-lg bg-[var(--bg-secondary)] cursor-pointer"
+            >
+              <div
+                className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border ${
+                  t.done
+                    ? "bg-[var(--accent-purple)] border-[var(--accent-purple)] text-white"
+                    : "border-[var(--border-color)] bg-[var(--bg-card)]"
+                }`}
+              >
+                {t.done && <Check className="h-3 w-3" />}
+              </div>
+              <span className={`text-xs font-medium ${t.done ? "line-through text-[var(--text-muted)]" : "text-[var(--text-primary)]"}`}>
+                {t.text}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
 
-        {/* Content Creation */}
-        <StaggerItem>
-          <SectionCard
-            title="Content Creation"
-            subtitle="Technical blogs, tutorials, videos, & open knowledge"
-            icon={PenTool}
-            isClickable
-            minHeight="min-h-[200px]"
-          />
-        </StaggerItem>
+      <div className="os-card p-5 space-y-3">
+        <span className="text-xs font-semibold text-[var(--text-muted)] uppercase block">
+          Resources
+        </span>
+        <div className="space-y-2">
+          {resources.map((r, i) => (
+            <div key={i} className="flex items-center justify-between p-2.5 rounded-lg bg-[var(--bg-secondary)] text-xs">
+              <span className="font-semibold text-[var(--text-primary)]">{r.title}</span>
+              <span className="text-[10px] text-[var(--text-muted)] font-mono uppercase px-2 py-0.5 rounded bg-[var(--bg-card)] border border-[var(--border-color)]">
+                {r.type}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
 
-        {/* Reading */}
-        <StaggerItem>
-          <SectionCard
-            title="Reading"
-            subtitle="Books, whitepapers, literature notes, & mental models"
-            icon={BookOpenCheck}
-            isClickable
-            minHeight="min-h-[200px]"
-          />
-        </StaggerItem>
-
-        {/* Productivity */}
-        <StaggerItem>
-          <SectionCard
-            title="Productivity"
-            subtitle="Focus workflows, time blocking, & energy optimization"
-            icon={Zap}
-            isClickable
-            minHeight="min-h-[200px]"
-          />
-        </StaggerItem>
-
-        {/* Character */}
-        <StaggerItem>
-          <SectionCard
-            title="Character"
-            subtitle="Discipline, resilience, integrity, & core values"
-            icon={ShieldAlert}
-            isClickable
-            minHeight="min-h-[200px]"
-          />
-        </StaggerItem>
-      </StaggerGrid>
-    </AnimatedContainer>
+      <div className="os-card p-5 space-y-2">
+        <span className="text-xs font-semibold text-[var(--text-muted)] uppercase block">
+          Notes
+        </span>
+        <textarea
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          rows={3}
+          className="w-full os-input p-3 text-xs font-medium resize-none focus:outline-none"
+        />
+      </div>
+    </div>
   );
 }
+

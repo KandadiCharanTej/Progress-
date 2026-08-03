@@ -12,6 +12,12 @@ export interface TaskItem {
   createdAt: number;
 }
 
+export interface QuickIdea {
+  id: string;
+  text: string;
+  createdAt: number;
+}
+
 interface TaskContextType {
   tasks: TaskItem[];
   addTask: (title: string, category: "Study" | "Startup" | "Money", priority: "High" | "Medium" | "Low", time?: string) => void;
@@ -25,83 +31,27 @@ interface TaskContextType {
   setSearchQuery: (query: string) => void;
   sortBy: "date" | "priority" | "category";
   setSortBy: (sort: "date" | "priority" | "category") => void;
+
+  // New Execution Features
+  todayPrinciple: string;
+  weeklyGoal: { title: string; current: number; total: number };
+  yesterdaysWin: string;
+  quickCapturedIdeas: QuickIdea[];
+  addQuickCaptureIdea: (text: string) => void;
+  incrementWeeklyGoal: () => void;
 }
 
-const STORAGE_KEY = "mission-control-tasks-v2";
+const STORAGE_KEY = "mission-control-tasks-v3";
+const IDEAS_STORAGE_KEY = "mission-control-ideas-v1";
 
-const initialTasks: TaskItem[] = [
-  {
-    id: "1",
-    title: "Master Operating Systems Memory & Process Scheduling",
-    category: "Study",
-    priority: "High",
-    time: "2.0 hrs",
-    completed: true,
-    createdAt: Date.now() - 3600000 * 8,
-  },
-  {
-    id: "2",
-    title: "Build Naavik Platform Router & Core Interfaces",
-    category: "Startup",
-    priority: "High",
-    time: "2.5 hrs",
-    completed: false,
-    createdAt: Date.now() - 3600000 * 7,
-  },
-  {
-    id: "3",
-    title: "Review High-Yield Allocation & Capital Runway",
-    category: "Money",
-    priority: "Medium",
-    time: "1.0 hr",
-    completed: false,
-    createdAt: Date.now() - 3600000 * 6,
-  },
-  {
-    id: "4",
-    title: "Solve 3 LeetCode Hard System Design Problems",
-    category: "Study",
-    priority: "High",
-    time: "1.5 hrs",
-    completed: false,
-    createdAt: Date.now() - 3600000 * 5,
-  },
-  {
-    id: "5",
-    title: "Implement Production Auth & JWT Validation Pipeline",
-    category: "Startup",
-    priority: "High",
-    time: "2.0 hrs",
-    completed: false,
-    createdAt: Date.now() - 3600000 * 4,
-  },
-  {
-    id: "6",
-    title: "Audit Monthly Fixed Expenses & Savings Rate Targets",
-    category: "Money",
-    priority: "Low",
-    time: "0.5 hr",
-    completed: false,
-    createdAt: Date.now() - 3600000 * 3,
-  },
-  {
-    id: "7",
-    title: "Deep Dive into Distributed Consensus Protocols (Raft & Paxos)",
-    category: "Study",
-    priority: "Medium",
-    time: "1.5 hrs",
-    completed: false,
-    createdAt: Date.now() - 3600000 * 2,
-  },
-  {
-    id: "8",
-    title: "Refactor Database Indexing & Query Latency Metrics",
-    category: "Startup",
-    priority: "Medium",
-    time: "1.0 hr",
-    completed: false,
-    createdAt: Date.now() - 3600000,
-  },
+const initialTasks: TaskItem[] = [];
+
+const principles = [
+  "Consistency beats intensity.",
+  "Build before consuming.",
+  "Done is better than perfect.",
+  "Stay focused on the core mission.",
+  "Action cures anxiety.",
 ];
 
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
@@ -113,29 +63,40 @@ export function TaskProvider({ children }: { children: ReactNode }) {
   const [sortBy, setSortBy] = useState<"date" | "priority" | "category">("date");
   const [isLoaded, setIsLoaded] = useState(false);
 
+  // New Execution States
+  const [todayPrinciple] = useState<string>(principles[0]);
+  const [weeklyGoal, setWeeklyGoal] = useState({ title: "Finish Operating Systems Module", current: 3, total: 5 });
+  const [yesterdaysWin] = useState<string>("Completed Database Module");
+  const [quickCapturedIdeas, setQuickCapturedIdeas] = useState<QuickIdea[]>([]);
+
   // Load from localStorage on mount
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        setTasks(JSON.parse(stored));
+      const storedTasks = localStorage.getItem(STORAGE_KEY);
+      if (storedTasks) {
+        setTasks(JSON.parse(storedTasks));
+      }
+      const storedIdeas = localStorage.getItem(IDEAS_STORAGE_KEY);
+      if (storedIdeas) {
+        setQuickCapturedIdeas(JSON.parse(storedIdeas));
       }
     } catch (e) {
-      console.error("Failed to load tasks from localStorage:", e);
+      console.error("Failed to load state from localStorage:", e);
     }
     setIsLoaded(true);
   }, []);
 
-  // Save to localStorage when tasks change
+  // Save to localStorage
   useEffect(() => {
     if (isLoaded) {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+        localStorage.setItem(IDEAS_STORAGE_KEY, JSON.stringify(quickCapturedIdeas));
       } catch (e) {
-        console.error("Failed to save tasks to localStorage:", e);
+        console.error("Failed to save state to localStorage:", e);
       }
     }
-  }, [tasks, isLoaded]);
+  }, [tasks, quickCapturedIdeas, isLoaded]);
 
   const addTask = (
     title: string,
@@ -183,6 +144,23 @@ export function TaskProvider({ children }: { children: ReactNode }) {
     setTasks((prev) => prev.filter((t) => !t.completed));
   };
 
+  const addQuickCaptureIdea = (text: string) => {
+    if (!text.trim()) return;
+    const newIdea: QuickIdea = {
+      id: Date.now().toString(),
+      text: text.trim(),
+      createdAt: Date.now(),
+    };
+    setQuickCapturedIdeas((prev) => [newIdea, ...prev]);
+  };
+
+  const incrementWeeklyGoal = () => {
+    setWeeklyGoal((prev) => ({
+      ...prev,
+      current: Math.min(prev.total, prev.current + 1),
+    }));
+  };
+
   return (
     <TaskContext.Provider
       value={{
@@ -198,6 +176,12 @@ export function TaskProvider({ children }: { children: ReactNode }) {
         setSearchQuery,
         sortBy,
         setSortBy,
+        todayPrinciple,
+        weeklyGoal,
+        yesterdaysWin,
+        quickCapturedIdeas,
+        addQuickCaptureIdea,
+        incrementWeeklyGoal,
       }}
     >
       {children}

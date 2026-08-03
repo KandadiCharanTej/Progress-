@@ -35,13 +35,13 @@ export const STUDY_NAV_ITEMS = [
     icon: Zap,
   },
   {
-    name: "Professional Excellence",
-    href: "/study/professional-excellence",
+    name: "Professional Growth",
+    href: "/study/professional-growth",
     icon: Award,
   },
   {
-    name: "Personal Excellence",
-    href: "/study/personal-excellence",
+    name: "Personal Growth",
+    href: "/study/personal-growth",
     icon: Sparkles,
   },
   {
@@ -55,7 +55,7 @@ export function StudySubNav() {
   const pathname = usePathname();
 
   return (
-    <div className="mb-4 border-b border-[var(--border-color)] bg-[var(--bg-main)] -mx-6 px-6 pt-1">
+    <div className="mb-1 border-b border-[var(--border-color)] bg-[var(--bg-main)] px-4 pt-1 shrink-0">
       <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-px">
         {STUDY_NAV_ITEMS.map((item) => {
           const Icon = item.icon;
@@ -67,14 +67,14 @@ export function StudySubNav() {
             <Link
               key={item.href}
               href={item.href}
-              className={`relative flex items-center gap-2 whitespace-nowrap px-3 py-2 text-xs font-medium transition-colors ${
+              className={`relative flex items-center gap-2 whitespace-nowrap px-3.5 py-1.5 text-xs font-bold transition-all ${
                 isActive
-                  ? "text-[var(--accent-purple)] font-semibold"
+                  ? "text-[var(--accent-purple)] font-extrabold"
                   : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               }`}
             >
               <Icon
-                className={`h-4 w-4 ${
+                className={`h-4 w-4 shrink-0 ${
                   isActive ? "text-[var(--accent-purple)]" : "text-[var(--text-muted)]"
                 }`}
               />
@@ -82,7 +82,7 @@ export function StudySubNav() {
 
               {/* Active Underline */}
               {isActive && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 rounded-t-full bg-[var(--accent-purple)]" />
+                <div className="absolute bottom-0 left-0 right-0 h-[2.5px] rounded-t-full bg-[var(--accent-purple)] shadow-xs" />
               )}
             </Link>
           );
