@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { 
   ArrowLeft, ChevronRight, Compass, Edit3, 
-  StickyNote, Library, PlayCircle, Code2, Plus
+  StickyNote, Library, PlayCircle, Code2, Plus, BookOpen
 } from "lucide-react";
 
 export default function TopicWorkspace({ params }: { params: { subject: string, topic: string } }) {
